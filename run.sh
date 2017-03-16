@@ -1,0 +1,1 @@
+$GOPATH/bin/bash-nats router.create.vcloud,router.update.vcloud,network.create.vcloud,network.delete.vcloud,instance.create.vcloud,instance.update.vcloud,instance.delete.vcloud $JRUBYPATH"jruby" adapter.rb
