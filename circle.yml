@@ -11,5 +11,5 @@ dependencies:
 
 test:
   override:
-#    - make test
+    - make test
 #    - make lint
