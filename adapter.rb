@@ -13,14 +13,14 @@ unless defined? @@test
   original_stdout = $stdout
   $stdout = StringIO.new
   begin
-      case @data[:_component]
-      when "router"
-        @data[:type] = process_router(@data)
-      when "network"
-        @data[:type] = process_network(@data)
-      when "instance"
-        @data[:type] = process_instance(@data)
-      end
+    case @data[:_component]
+    when 'router'
+      @data[:type] = process_router(@data)
+    when 'network'
+      @data[:type] = process_network(@data)
+    when 'instance'
+      @data[:type] = process_instance(@data)
+    end
 
     if @data[:type].include? 'error'
       @data['error'] = { code: 0, message: $stdout.string.to_s }

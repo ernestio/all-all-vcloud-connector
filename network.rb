@@ -65,12 +65,10 @@ rescue => e
   'network.delete.vcloud.error'
 end
 
-
 def dns(data)
   return ['8.8.8.8', '8.8.4.4'] if data[:dns].nil?
   data[:dns]
 end
-
 
 class NetworkTask
   attr_reader :token, :name, :href, :owner, :status, :progress, :xml, :http

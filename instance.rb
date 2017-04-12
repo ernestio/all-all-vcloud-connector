@@ -35,7 +35,6 @@ def create_instance(data)
 
   datacenter.add_compute_instance(instance, data[:name], network, image)
 
-
   unless data[:shell_commands].nil? || data[:shell_commands].empty?
     custom_section = instance.vm.getGuestCustomizationSection
     custom_section.setEnabled(true)
