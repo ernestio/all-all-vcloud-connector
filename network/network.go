@@ -5,33 +5,27 @@
 package network
 
 import (
-	"github.com/ernestio/all-all-vcloud-connector/credentials"
+	"github.com/ernestio/all-all-vcloud-connector/base"
 	"github.com/r3labs/vcloud-go-sdk/models"
 )
 
 // Network : Mapping of a network component
 type Network struct {
-	ProviderType  string                   `json:"_provider"`
-	ComponentType string                   `json:"_component"`
-	ComponentID   string                   `json:"_component_id"`
-	State         string                   `json:"_state"`
-	Action        string                   `json:"_action"`
-	ID            string                   `json:"id"`
-	Name          string                   `json:"name"`
-	Subnet        string                   `json:"range"`
-	Netmask       string                   `json:"netmask"`
-	StartAddress  string                   `json:"start_address"`
-	EndAddress    string                   `json:"end_address"`
-	Gateway       string                   `json:"gateway"`
-	DNS           []string                 `json:"dns"`
-	EdgeGateway   string                   `json:"edge_gateway"`
-	EdgeGatewayID string                   `json:"edge_gateway_id"`
-	Credentials   *credentials.Credentials `json:"credentials"`
-	Service       string                   `json:"service"`
+	base.DefaultFields
+	ID            string   `json:"id"`
+	Name          string   `json:"name"`
+	Subnet        string   `json:"range"`
+	Netmask       string   `json:"netmask"`
+	StartAddress  string   `json:"start_address"`
+	EndAddress    string   `json:"end_address"`
+	Gateway       string   `json:"gateway"`
+	DNS           []string `json:"dns"`
+	EdgeGateway   string   `json:"edge_gateway"`
+	EdgeGatewayID string   `json:"edge_gateway_id"`
 }
 
-// ToVcloudType : converts the ernest network to an org vdc network type
-func (n *Network) ToVcloudType() *models.Network {
+// ConvertErnestType : converts the ernest network to an org vdc network type
+func (n *Network) ConvertErnestType() *models.Network {
 	nw := models.Network{
 		Name: n.Name,
 	}
@@ -54,8 +48,12 @@ func (n *Network) ToVcloudType() *models.Network {
 	return &nw
 }
 
-// FromVcloudType : converts the org vdc network to a ernest network
-func (n *Network) FromVcloudType(nw *models.Network) {
+// ConvertProviderType : converts the org vdc network to an ernest network
+func (n *Network) ConvertProviderType(nw *models.Network) {
+	n.ProviderType = "vcloud"
+	n.ComponentType = "network"
+	n.ComponentID = "network::" + n.Name
+
 	n.ID = nw.ID
 	n.Name = nw.Name
 	n.EdgeGateway = nw.EdgeGatewayName()

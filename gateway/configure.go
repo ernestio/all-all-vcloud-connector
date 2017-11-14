@@ -2,17 +2,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package network
+package gateway
 
 import (
 	"github.com/ernestio/all-all-vcloud-connector/helpers"
 	"github.com/r3labs/vcloud-go-sdk/client"
 	"github.com/r3labs/vcloud-go-sdk/config"
+	"github.com/r3labs/vcloud-go-sdk/models"
 )
 
-// Create : create an org vdc network
-func (n *Network) Create() error {
-	cfg := config.New(n.Credentials.VCloudURL, "27.0").WithCredentials(n.Credentials.Username, n.Credentials.Password)
+// Configure : configure an edge gateway
+func (g *Gateway) Configure() error {
+	var gateway *models.EdgeGateway
+
+	cfg := config.New(g.Credentials.VCloudURL, "27.0").WithCredentials(g.Credentials.Username, g.Credentials.Password)
 	vcloud := client.New(cfg)
 
 	err := vcloud.Authenticate()
@@ -20,25 +23,29 @@ func (n *Network) Create() error {
 		return err
 	}
 
-	vdc, err := helpers.VdcByName(vcloud, cfg.Org(), n.Credentials.Vdc)
+	if g.ID != "" {
+		gateway, err = vcloud.Gateways.Get(g.ID)
+	} else {
+		gateway, err = helpers.GatewayByName(vcloud, g.Name)
+	}
+
 	if err != nil {
 		return err
 	}
 
-	gateway, err := helpers.GatewayByName(vcloud, n.EdgeGateway)
+	g.UpdateProviderType(gateway)
+
+	task, err := vcloud.Gateways.Update(gateway)
 	if err != nil {
 		return err
 	}
 
-	nw := n.ConvertErnestType()
-	nw.SetEdgeGateway(gateway.Href, gateway.Name)
-
-	err = vcloud.Networks.Create(vdc.GetID(), nw)
+	err = vcloud.Tasks.Wait(task)
 	if err != nil {
 		return err
 	}
 
-	n.ConvertProviderType(nw)
+	g.ConvertProviderType(gateway)
 
 	return nil
 }
