@@ -26,6 +26,8 @@ func (i *Instance) Update() error {
 		return err
 	}
 
+	// check power state!
+
 	fmt.Println(vapp)
 
 	return nil

@@ -16,6 +16,7 @@ import (
 type Instance struct {
 	base.DefaultFields
 	ID            string            `json:"id"`
+	VMID          string            `json:"vm_id"`
 	Name          string            `json:"name"`
 	Hostname      string            `json:"hostname"`
 	Catalog       string            `json:"reference_catalog"`
@@ -56,10 +57,13 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 	}
 
 	for _, disk := range i.Disks {
-		// Don't set the size of the boot drive
-		vhs.RemoveDisk(con.InstanceID.Value, strconv.Itoa(disk.ID))
-		vhs.AddDisk(con.InstanceID.Value, disk.Size)
+		id := strconv.Itoa(disk.ID)
+		vhs.RemoveDisk(con.InstanceID.Value, id)
+		vhs.AddDisk(con.InstanceID.Value, id, disk.Size)
 	}
+
+	vhs.RemoveNic("0")
+	vhs.AddNic("VMXNET3", i.Network, i.IP, true)
 }
 
 // ConvertProviderType : converts the org vdc network to an ernest network
@@ -72,7 +76,8 @@ func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 	i.ComponentType = "instance"
 	i.ComponentID = "instance::" + vapp.Name
 
-	i.ID = vapp.ID
+	i.ID = vapp.GetID()
+	i.VMID = vapp.Vms()[0].GetID()
 	i.Name = vapp.Name
 	i.Cpus = vhs.GetCPU()
 	i.Memory = vhs.GetRAM()
