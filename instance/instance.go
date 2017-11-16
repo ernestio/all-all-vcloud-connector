@@ -42,6 +42,11 @@ func (i *Instance) SetError(err error) {
 	i.ErrorMessage = err.Error()
 }
 
+// GetCredentials ...
+func (i *Instance) GetCredentials() *base.Credentials {
+	return i.Credentials
+}
+
 // Find : find an instance
 func (i *Instance) Find() error {
 	return errors.New("not implemented")

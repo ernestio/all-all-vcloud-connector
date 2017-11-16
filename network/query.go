@@ -29,6 +29,11 @@ func (c *Collection) SetError(err error) {
 	c.ErrorMessage = err.Error()
 }
 
+// GetCredentials ...
+func (c *Collection) GetCredentials() *base.Credentials {
+	return c.Credentials
+}
+
 // Create ...
 func (c *Collection) Create() error {
 	return errors.New("not implemented")

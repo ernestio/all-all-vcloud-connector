@@ -36,6 +36,11 @@ func (n *Network) SetError(err error) {
 	n.ErrorMessage = err.Error()
 }
 
+// GetCredentials ...
+func (n *Network) GetCredentials() *base.Credentials {
+	return n.Credentials
+}
+
 // Find : find an org vdc network
 func (n *Network) Find() error {
 	return errors.New("not implemented")

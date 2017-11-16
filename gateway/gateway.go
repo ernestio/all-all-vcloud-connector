@@ -31,6 +31,11 @@ func (g *Gateway) SetError(err error) {
 	g.ErrorMessage = err.Error()
 }
 
+// GetCredentials ...
+func (g *Gateway) GetCredentials() *base.Credentials {
+	return g.Credentials
+}
+
 // Find : find an edge gateway
 func (g *Gateway) Find() error {
 	return errors.New("not implemented")

@@ -19,22 +19,22 @@ import (
 var nc *nats.Conn
 var cfg *ecc.Config
 
-func response(subj string, e Event, err *error) {
+func response(subj string, e *Event, err *error) {
 	if *err != nil {
 		log.Println(subj + ": " + (*err).Error())
 		subj = subj + ".error"
 
-		e.SetError(*err)
-		e.SetState("error")
+		(*e).SetError(*err)
+		(*e).SetState("error")
 	} else {
 		subj = subj + ".done"
 
-		e.SetState("completed")
+		(*e).SetState("completed")
 	}
 
 	log.Println(subj)
 
-	data, merr := json.Marshal(e)
+	data, merr := json.Marshal(*e)
 	if merr != nil {
 		log.Println(merr)
 	}
@@ -48,7 +48,7 @@ func handler(msg *nats.Msg) {
 
 	log.Println(msg.Subject)
 
-	defer response(msg.Subject, e, &err)
+	defer response(msg.Subject, &e, &err)
 
 	e, err = event(msg.Subject, msg.Data)
 	if err != nil {
