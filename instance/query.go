@@ -35,12 +35,23 @@ func (c *Collection) Find() error {
 	for _, vappr := range vdc.VAppRefs() {
 		var i Instance
 
+		i.Tags = make(map[string]string)
+
 		vapp, err := vcloud.VApps.Get(vappr.ID())
 		if err != nil {
 			return err
 		}
 
 		i.ConvertProviderType(vapp)
+
+		metadata, err := vcloud.VApps.GetMetadata(vappr.ID())
+		if err != nil {
+			return err
+		}
+
+		for _, e := range metadata.Entries {
+			i.Tags[e.Key] = e.TypedValue.Value
+		}
 
 		c.Components = append(c.Components, &i)
 	}

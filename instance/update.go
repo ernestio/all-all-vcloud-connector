@@ -5,14 +5,15 @@
 package instance
 
 import (
-	"fmt"
-
 	"github.com/r3labs/vcloud-go-sdk/client"
 	"github.com/r3labs/vcloud-go-sdk/config"
+	"github.com/r3labs/vcloud-go-sdk/models"
 )
 
 // Update : update a vapp/vm instance
 func (i *Instance) Update() error {
+	var task *models.Task
+
 	cfg := config.New(i.Credentials.VCloudURL, "27.0").WithCredentials(i.Credentials.Username, i.Credentials.Password)
 	vcloud := client.New(cfg)
 
@@ -26,9 +27,57 @@ func (i *Instance) Update() error {
 		return err
 	}
 
+	vm := vapp.Vms()[0]
+
 	// check power state!
+	if vm.Status != "8" {
+		task, err = vcloud.Vms.PowerOff(vm.GetID())
+		if err != nil {
+			return err
+		}
 
-	fmt.Println(vapp)
+		err = vcloud.Tasks.Wait(task)
+		if err != nil {
+			return err
+		}
+	}
 
-	return nil
+	i.UpdateProviderType(vapp)
+
+	task, err = vcloud.Vms.Update(vm)
+	if err != nil {
+		return err
+	}
+
+	err = vcloud.Tasks.Wait(task)
+	if err != nil {
+		return err
+	}
+
+	metadata, err := vcloud.VApps.GetMetadata(vapp.GetID())
+	if err != nil {
+		return err
+	}
+
+	for k, v := range i.Tags {
+		metadata.Remove(k)
+		metadata.Add(k, v)
+	}
+
+	task, err = vcloud.VApps.UpdateMetadata(vapp.GetID(), metadata)
+	if err != nil {
+		return err
+	}
+
+	err = vcloud.Tasks.Wait(task)
+	if err != nil {
+		return err
+	}
+
+	task, err = vcloud.Vms.PowerOn(vm.GetID())
+	if err != nil {
+		return err
+	}
+
+	return vcloud.Tasks.Wait(task)
 }

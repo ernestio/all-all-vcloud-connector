@@ -7,6 +7,7 @@ package instance
 import (
 	"log"
 	"strconv"
+	"strings"
 
 	"github.com/ernestio/all-all-vcloud-connector/base"
 	"github.com/r3labs/vcloud-go-sdk/models"
@@ -47,6 +48,8 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 
 	vm.Name = i.Name
 	vhs := vm.VirtualHardwareSection
+	ncs := vm.NetworkConnectionSection
+	gcs := vm.GuestCustomizationSection
 	con := vhs.GetDiskController()
 
 	vhs.SetCPU(i.Cpus)
@@ -62,14 +65,20 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 		vhs.AddDisk(con.InstanceID.Value, id, disk.Size)
 	}
 
-	vhs.RemoveNic("0")
-	vhs.AddNic("VMXNET3", i.Network, i.IP, true)
+	ncs.RemoveNic("0")
+	ncs.AddNic("VMXNET3", i.Network, i.IP, true)
+
+	gcs.Enabled = true
+	gcs.ComputerName = i.Hostname
+	gcs.CustomizationScript = strings.Join(i.ShellCommands, "\n")
 }
 
 // ConvertProviderType : converts the org vdc network to an ernest network
 func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 	vm := vapp.Vms()[0]
 	vhs := vm.VirtualHardwareSection
+	ncs := vm.NetworkConnectionSection
+	gcs := vm.GuestCustomizationSection
 	con := vhs.GetDiskController()
 
 	i.ProviderType = "vcloud"
@@ -81,6 +90,14 @@ func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 	i.Name = vapp.Name
 	i.Cpus = vhs.GetCPU()
 	i.Memory = vhs.GetRAM()
+	i.Hostname = vm.GuestCustomizationSection.ComputerName
+	i.ShellCommands = strings.Split(gcs.CustomizationScript, "\n")
+
+	if len(ncs.NetworkConnections) > 0 {
+		nc := ncs.NetworkConnections[0]
+		i.IP = nc.IPAddress
+		i.Network = nc.Network
+	}
 
 	for _, disk := range vhs.Items.ByParent(con.InstanceID.Value) {
 		var size int
