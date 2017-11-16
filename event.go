@@ -47,6 +47,11 @@ func event(subject string, data []byte) (Event, error) {
 		return nil, errors.New("unsupported event")
 	}
 
+	err := json.Unmarshal(data, e)
+	if err != nil {
+		return nil, err
+	}
+
 	c := e.GetCredentials()
 
 	key := os.Getenv("ERNEST_CRYPTO_KEY")
@@ -59,5 +64,5 @@ func event(subject string, data []byte) (Event, error) {
 
 	c.Password = password
 
-	return e, json.Unmarshal(data, e)
+	return e, nil
 }
