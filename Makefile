@@ -6,6 +6,7 @@ build:
 
 deps:
 		go get github.com/nats-io/nats
+		go get github.com/ernestio/crypto/aes
 		go get github.com/ernestio/ernest-config-client
 		go get github.com/r3labs/vcloud-go-sdk
 
