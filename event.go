@@ -6,11 +6,11 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 
 	"github.com/ernestio/all-all-vcloud-connector/gateway"
 	"github.com/ernestio/all-all-vcloud-connector/instance"
 	"github.com/ernestio/all-all-vcloud-connector/network"
-	"github.com/mitchellh/mapstructure"
 )
 
 // Event : defines the interface that all events will conform to
@@ -25,12 +25,6 @@ type Event interface {
 
 func event(subject string, data []byte) (Event, error) {
 	var e Event
-	var m map[string]interface{}
-
-	err := json.Unmarshal(data, &m)
-	if err != nil {
-		return nil, err
-	}
 
 	switch subject {
 	case "router.find.vcloud":
@@ -45,23 +39,9 @@ func event(subject string, data []byte) (Event, error) {
 		e = &instance.Collection{}
 	case "instance.create.vcloud", "instance.update.vcloud", "instance.delete.vcloud":
 		e = &instance.Instance{}
+	default:
+		return nil, errors.New("unsupported event")
 	}
 
-	config := &mapstructure.DecoderConfig{
-		Metadata: nil,
-		Result:   e,
-		TagName:  "json",
-	}
-
-	decoder, err := mapstructure.NewDecoder(config)
-	if err != nil {
-		return nil, err
-	}
-
-	err = decoder.Decode(m)
-	if err != nil {
-		return nil, err
-	}
-
-	return e, nil
+	return e, json.Unmarshal(data, e)
 }
