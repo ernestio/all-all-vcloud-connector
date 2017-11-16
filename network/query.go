@@ -5,6 +5,8 @@
 package network
 
 import (
+	"errors"
+
 	"github.com/ernestio/all-all-vcloud-connector/base"
 	"github.com/ernestio/all-all-vcloud-connector/helpers"
 	"github.com/r3labs/vcloud-go-sdk/client"
@@ -15,6 +17,31 @@ import (
 type Collection struct {
 	base.DefaultFields
 	Components []*Network `json:"components,omitempty"`
+}
+
+// SetState : sets the collections state
+func (c *Collection) SetState(state string) {
+	c.State = state
+}
+
+// SetError : sets the collections error message
+func (c *Collection) SetError(err error) {
+	c.ErrorMessage = err.Error()
+}
+
+// Create ...
+func (c *Collection) Create() error {
+	return errors.New("not implemented")
+}
+
+// Update ...
+func (c *Collection) Update() error {
+	return errors.New("not implemented")
+}
+
+// Delete ...
+func (c *Collection) Delete() error {
+	return errors.New("not implemented")
 }
 
 // Find : finds all networks related to a vdc

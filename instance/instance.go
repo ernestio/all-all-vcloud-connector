@@ -5,6 +5,7 @@
 package instance
 
 import (
+	"errors"
 	"log"
 	"strconv"
 	"strings"
@@ -29,6 +30,21 @@ type Instance struct {
 	Disks         []Disk            `json:"disks"`
 	ShellCommands []string          `json:"shell_commands"`
 	Tags          map[string]string `json:"tags"`
+}
+
+// SetState : sets the instances state
+func (i Instance) SetState(state string) {
+	i.State = state
+}
+
+// SetError : sets the instances error message
+func (i *Instance) SetError(err error) {
+	i.ErrorMessage = err.Error()
+}
+
+// Find : find an instance
+func (i *Instance) Find() error {
+	return errors.New("not implemented")
 }
 
 // CreateProviderRequest : converts the ernest instance into a vapp creation request

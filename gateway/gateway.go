@@ -5,6 +5,8 @@
 package gateway
 
 import (
+	"errors"
+
 	"github.com/ernestio/all-all-vcloud-connector/base"
 	"github.com/r3labs/vcloud-go-sdk/models"
 )
@@ -17,6 +19,21 @@ type Gateway struct {
 	IP            string         `json:"ip"`
 	NatRules      []NatRule      `json:"nat_rules"`
 	FirewallRules []FirewallRule `json:"firewall_rules"`
+}
+
+// SetState : sets the edge gateways state
+func (g *Gateway) SetState(state string) {
+	g.State = state
+}
+
+// SetError : sets the edge gateways error message
+func (g *Gateway) SetError(err error) {
+	g.ErrorMessage = err.Error()
+}
+
+// Find : find an edge gateway
+func (g *Gateway) Find() error {
+	return errors.New("not implemented")
 }
 
 // UpdateProviderType : updates the provider type with values from the ernest gateway

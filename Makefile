@@ -1,12 +1,21 @@
+install:
+	go install -v
+
+build:
+	go build -v ./...
+
 deps:
-	go get -u github.com/ernestio/bash-nats
+		go get github.com/nats-io/nats
+		go get github.com/mitchellh/mapstructure
+		go get github.com/ernestio/ernest-config-client
+		go get github.com/r3labs/vcloud-go-sdk
 
 dev-deps:
-	jruby -S bundle install
-
-lint:
-	jruby -S bundle exec rubocop
+	go get github.com/golang/lint/golint
 
 test:
-	#jruby -S bundle exec rspec spec
-	echo "passed"
+	go test -v ./...
+
+lint:
+	golint ./...
+	go vet ./...

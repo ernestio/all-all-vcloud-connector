@@ -5,6 +5,8 @@
 package network
 
 import (
+	"errors"
+
 	"github.com/ernestio/all-all-vcloud-connector/base"
 	"github.com/r3labs/vcloud-go-sdk/models"
 )
@@ -22,6 +24,21 @@ type Network struct {
 	DNS           []string `json:"dns"`
 	EdgeGateway   string   `json:"edge_gateway"`
 	EdgeGatewayID string   `json:"edge_gateway_id"`
+}
+
+// SetState : sets the networks state
+func (n *Network) SetState(state string) {
+	n.State = state
+}
+
+// SetError : sets the networks error message
+func (n *Network) SetError(err error) {
+	n.ErrorMessage = err.Error()
+}
+
+// Find : find an org vdc network
+func (n *Network) Find() error {
+	return errors.New("not implemented")
 }
 
 // ConvertErnestType : converts the ernest network to an org vdc network type
