@@ -20,11 +20,11 @@ import (
 type Event interface {
 	SetError(error)
 	SetState(string)
+	GetCredentials() *base.Credentials
 	Create() error
 	Update() error
 	Delete() error
 	Find() error
-	Credentials() *base.Credentials
 }
 
 func event(subject string, data []byte) (Event, error) {
@@ -47,7 +47,7 @@ func event(subject string, data []byte) (Event, error) {
 		return nil, errors.New("unsupported event")
 	}
 
-	c := e.Credentials()
+	c := e.GetCredentials()
 
 	key := os.Getenv("ERNEST_CRYPTO_KEY")
 
