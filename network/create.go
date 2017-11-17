@@ -38,6 +38,13 @@ func (n *Network) Create() error {
 		return err
 	}
 
+	for _, task := range nw.GetTasks() {
+		err = vcloud.Tasks.Wait(&task)
+		if err != nil {
+			return err
+		}
+	}
+
 	n.ConvertProviderType(nw)
 
 	return nil
