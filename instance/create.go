@@ -53,7 +53,5 @@ func (i *Instance) Create() error {
 		}
 	}
 
-	i.ConvertProviderType(vapp)
-
 	return i.Update()
 }

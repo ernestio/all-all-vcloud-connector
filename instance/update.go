@@ -79,5 +79,12 @@ func (i *Instance) Update() error {
 		return err
 	}
 
-	return vcloud.Tasks.Wait(task)
+	err = vcloud.Tasks.Wait(task)
+	if err != nil {
+		return err
+	}
+
+	i.ConvertProviderType(vapp)
+
+	return nil
 }
