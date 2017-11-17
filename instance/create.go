@@ -53,5 +53,7 @@ func (i *Instance) Create() error {
 		}
 	}
 
+	i.ID = vapp.GetID()
+
 	return i.Update()
 }

@@ -5,7 +5,6 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
 	"log"
 	"os"
@@ -18,29 +17,6 @@ import (
 
 var nc *nats.Conn
 var cfg *ecc.Config
-
-func response(subj string, e *Event, err *error) {
-	if *err != nil {
-		log.Println(subj + ": " + (*err).Error())
-		subj = subj + ".error"
-
-		(*e).SetError(*err)
-		(*e).SetState("errored")
-	} else {
-		subj = subj + ".done"
-
-		(*e).SetState("completed")
-	}
-
-	log.Println(subj)
-
-	data, merr := json.Marshal(*e)
-	if merr != nil {
-		log.Println(merr)
-	}
-
-	nc.Publish(subj, data)
-}
 
 func handler(msg *nats.Msg) {
 	var e Event
