@@ -25,7 +25,7 @@ func response(subj string, e *Event, err *error) {
 		subj = subj + ".error"
 
 		(*e).SetError(*err)
-		(*e).SetState("error")
+		(*e).SetState("errored")
 	} else {
 		subj = subj + ".done"
 
