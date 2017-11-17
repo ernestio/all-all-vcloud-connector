@@ -62,6 +62,8 @@ func (g *Gateway) UpdateProviderType(gw *models.EdgeGateway) {
 
 	for _, r := range g.NatRules {
 		gw.Nat().AddRule(&models.NatRule{
+			RuleType: r.Type,
+			Enabled:  true,
 			GatewayNatRule: &models.GatewayNatRule{
 				Interface:      gw.DefaultInterface().Network,
 				OriginalIP:     r.OriginIP,
@@ -70,7 +72,6 @@ func (g *Gateway) UpdateProviderType(gw *models.EdgeGateway) {
 				TranslatedPort: r.TranslationPort,
 				Protocol:       r.Protocol,
 			},
-			Enabled: true,
 		})
 	}
 }
@@ -99,6 +100,7 @@ func (g *Gateway) ConvertProviderType(gw *models.EdgeGateway) {
 
 	for _, r := range gw.Nat().NatRules {
 		g.NatRules = append(g.NatRules, NatRule{
+			Type:            r.RuleType,
 			OriginIP:        r.GatewayNatRule.OriginalIP,
 			TranslationIP:   r.GatewayNatRule.TranslatedIP,
 			OriginPort:      r.GatewayNatRule.OriginalPort,

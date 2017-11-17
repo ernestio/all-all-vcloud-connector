@@ -12,5 +12,4 @@ type NatRule struct {
 	TranslationIP   string `json:"translation_ip"`
 	TranslationPort string `json:"translation_port"`
 	Protocol        string `json:"protocol"`
-	Network         string `json:"network"`
 }
