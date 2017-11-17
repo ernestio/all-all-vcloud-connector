@@ -27,6 +27,8 @@ func (i *Instance) Update() error {
 		return err
 	}
 
+	i.UpdateProviderType(vapp)
+
 	vm := vapp.Vms()[0]
 
 	// check power state!
@@ -41,8 +43,6 @@ func (i *Instance) Update() error {
 			return err
 		}
 	}
-
-	i.UpdateProviderType(vapp)
 
 	task, err = vcloud.Vms.Update(vm)
 	if err != nil {
