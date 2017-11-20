@@ -76,10 +76,6 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 	vhs.SetCPU(i.Cpus)
 	vhs.SetRAM(i.Memory)
 
-	if len(i.Disks) < 1 {
-		return
-	}
-
 	for _, disk := range i.Disks {
 		id := strconv.Itoa(disk.ID)
 		vhs.RemoveDisk(con.InstanceID.Value, id)
