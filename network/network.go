@@ -76,7 +76,7 @@ func (n *Network) ConvertProviderType(nw *models.Network) {
 	n.ComponentType = "network"
 	n.ComponentID = "network::" + n.Name
 
-	n.ID = nw.ID
+	n.ID = nw.GetID()
 	n.Name = nw.Name
 	n.EdgeGateway = nw.EdgeGatewayName()
 	n.EdgeGatewayID = nw.EdgeGatewayID()

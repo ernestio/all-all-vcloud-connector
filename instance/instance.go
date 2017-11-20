@@ -33,7 +33,7 @@ type Instance struct {
 }
 
 // SetState : sets the instances state
-func (i Instance) SetState(state string) {
+func (i *Instance) SetState(state string) {
 	i.State = state
 }
 
