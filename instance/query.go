@@ -6,11 +6,13 @@ package instance
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/ernestio/all-all-vcloud-connector/base"
 	"github.com/ernestio/all-all-vcloud-connector/helpers"
 	"github.com/r3labs/vcloud-go-sdk/client"
 	"github.com/r3labs/vcloud-go-sdk/config"
+	"github.com/r3labs/vcloud-go-sdk/models"
 )
 
 // Collection ...
@@ -51,6 +53,9 @@ func (c *Collection) Delete() error {
 
 // Find : finds all networks related to a vdc
 func (c *Collection) Find() error {
+	// cache template lookups
+	tc := make(map[string]string)
+
 	cfg := config.New(c.Credentials.VCloudURL, "27.0").WithCredentials(c.Credentials.Username, c.Credentials.Password)
 	vcloud := client.New(cfg)
 
@@ -80,6 +85,27 @@ func (c *Collection) Find() error {
 		if err != nil {
 			return err
 		}
+
+		image := metadata.Get("vapp.origin.name")
+		imageID := metadata.Get("vapp.origin.id")
+
+		if tc[imageID] == "" {
+			q, err := vcloud.Queries.RecordsFilter(models.QueryVAppTemplate, "id=="+imageID, "1")
+			if err != nil {
+				return err
+			}
+
+			if len(q.VAppTemplates) < 1 {
+				return fmt.Errorf("could not find vapp template image: %s (%s)", image, imageID)
+			}
+
+			tc[imageID] = q.VAppTemplates[0].Catalog
+		}
+
+		i.Image = image
+		i.Catalog = tc[imageID]
+
+		metadata.RemoveDefaults()
 
 		for _, e := range metadata.Entries {
 			i.Tags[e.Key] = e.TypedValue.Value
