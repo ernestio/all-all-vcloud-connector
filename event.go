@@ -31,15 +31,15 @@ func event(subject string, data []byte) (Event, error) {
 	var e Event
 
 	switch subject {
-	case "router.find.vcloud":
+	case "routers.find.vcloud":
 		e = &gateway.Collection{}
 	case "router.create.vcloud", "router.update.vcloud":
 		e = &gateway.Gateway{}
-	case "network.find.vcloud":
+	case "networks.find.vcloud":
 		e = &network.Collection{}
 	case "network.create.vcloud", "network.update.vcloud", "network.delete.vcloud":
 		e = &network.Network{}
-	case "instance.find.vcloud":
+	case "instances.find.vcloud":
 		e = &instance.Collection{}
 	case "instance.create.vcloud", "instance.update.vcloud", "instance.delete.vcloud":
 		e = &instance.Instance{}
