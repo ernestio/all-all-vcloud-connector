@@ -80,7 +80,7 @@ func (g *Gateway) UpdateProviderType(gw *models.EdgeGateway) {
 func (g *Gateway) ConvertProviderType(gw *models.EdgeGateway) {
 	g.ProviderType = "vcloud"
 	g.ComponentType = "router"
-	g.ComponentID = "router::" + g.Name
+	g.ComponentID = "router::" + gw.Name
 
 	g.ID = gw.GetID()
 	g.Name = gw.Name

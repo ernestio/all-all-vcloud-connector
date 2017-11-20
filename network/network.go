@@ -74,14 +74,16 @@ func (n *Network) ConvertErnestType() *models.Network {
 func (n *Network) ConvertProviderType(nw *models.Network) {
 	n.ProviderType = "vcloud"
 	n.ComponentType = "network"
-	n.ComponentID = "network::" + n.Name
+	n.ComponentID = "network::" + nw.Name
 
 	n.ID = nw.GetID()
 	n.Name = nw.Name
-	if nw.EdgeGatewayName() != "" {
-		n.EdgeGateway = nw.EdgeGatewayName()
+	if nw.EdgeGateway != nil {
+		if nw.EdgeGatewayName() != "" {
+			n.EdgeGateway = nw.EdgeGatewayName()
+		}
+		n.EdgeGatewayID = nw.EdgeGatewayID()
 	}
-	n.EdgeGatewayID = nw.EdgeGatewayID()
 	n.Netmask = nw.Netmask()
 	n.Gateway = nw.Gateway()
 	n.StartAddress = nw.StartAddress()

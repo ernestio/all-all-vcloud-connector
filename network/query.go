@@ -11,6 +11,7 @@ import (
 	"github.com/ernestio/all-all-vcloud-connector/helpers"
 	"github.com/r3labs/vcloud-go-sdk/client"
 	"github.com/r3labs/vcloud-go-sdk/config"
+	"github.com/r3labs/vcloud-go-sdk/models"
 )
 
 // Collection ...
@@ -64,17 +65,37 @@ func (c *Collection) Find() error {
 		return err
 	}
 
-	for _, nr := range vdc.NetworkRefs() {
-		var n Network
+	records, err := vcloud.Queries.RecordsFilter(models.QueryEdgeGateway, "vdc=="+vdc.Href, "1")
+	if err != nil {
+		return err
+	}
 
-		nw, err := vcloud.Networks.Get(nr.ID())
+	for _, gr := range records.EdgeGatewayRecords {
+
+		gw, err := vcloud.Gateways.Get(gr.ID())
 		if err != nil {
 			return err
 		}
 
-		n.ConvertProviderType(nw)
+		for _, iface := range gw.Configuration.GatewayInterfaces.Interfaces {
+			var n Network
 
-		c.Components = append(c.Components, &n)
+			if iface.InterfaceType != "internal" {
+				continue
+			}
+
+			n.EdgeGateway = gw.Name
+			n.EdgeGatewayID = gw.GetID()
+
+			nw, err := vcloud.Networks.Get(iface.Network.ID())
+			if err != nil {
+				return err
+			}
+
+			n.ConvertProviderType(nw)
+
+			c.Components = append(c.Components, &n)
+		}
 	}
 
 	return nil
