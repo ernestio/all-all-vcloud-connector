@@ -78,7 +78,9 @@ func (n *Network) ConvertProviderType(nw *models.Network) {
 
 	n.ID = nw.GetID()
 	n.Name = nw.Name
-	n.EdgeGateway = nw.EdgeGatewayName()
+	if nw.EdgeGatewayName() != "" {
+		n.EdgeGateway = nw.EdgeGatewayName()
+	}
 	n.EdgeGatewayID = nw.EdgeGatewayID()
 	n.Netmask = nw.Netmask()
 	n.Gateway = nw.Gateway()
