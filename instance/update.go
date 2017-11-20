@@ -29,7 +29,7 @@ func (i *Instance) Update() error {
 
 	i.UpdateProviderType(vapp)
 
-	vm := vapp.Vms()[0]
+	vm := vapp.Children.Vms[0]
 
 	// check power state!
 	if vm.Status != "8" {
@@ -63,6 +63,8 @@ func (i *Instance) Update() error {
 		metadata.Remove(k)
 		metadata.Add(k, v)
 	}
+
+	metadata.RemoveDefaults()
 
 	task, err = vcloud.VApps.UpdateMetadata(vapp.GetID(), metadata)
 	if err != nil {

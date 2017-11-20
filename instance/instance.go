@@ -65,7 +65,7 @@ func (i *Instance) CreateProviderRequest() *models.InstantiateVAppParams {
 
 // UpdateProviderType : updates the provider type with values from the ernest instance
 func (i *Instance) UpdateProviderType(vapp *models.VApp) {
-	vm := vapp.Vms()[0]
+	vm := vapp.Children.Vms[0]
 
 	vm.Name = i.Name
 	vhs := vm.VirtualHardwareSection
@@ -96,7 +96,7 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 
 // ConvertProviderType : converts the org vdc network to an ernest network
 func (i *Instance) ConvertProviderType(vapp *models.VApp) {
-	vm := vapp.Vms()[0]
+	vm := vapp.Children.Vms[0]
 	vhs := vm.VirtualHardwareSection
 	ncs := vm.NetworkConnectionSection
 	gcs := vm.GuestCustomizationSection
