@@ -103,9 +103,9 @@ func (g *Gateway) ConvertProviderType(gw *models.EdgeGateway) {
 			Type:            r.RuleType,
 			OriginIP:        r.GatewayNatRule.OriginalIP,
 			TranslationIP:   r.GatewayNatRule.TranslatedIP,
-			OriginPort:      r.GatewayNatRule.OriginalPort,
-			TranslationPort: r.GatewayNatRule.TranslatedPort,
-			Protocol:        r.GatewayNatRule.Protocol,
+			OriginPort:      r.GatewayNatRule.GetOriginalPort(),
+			TranslationPort: r.GatewayNatRule.GetTranslatedPort(),
+			Protocol:        r.GatewayNatRule.GetProtocol(),
 		})
 	}
 }
