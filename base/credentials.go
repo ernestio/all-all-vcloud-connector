@@ -4,6 +4,13 @@
 
 package base
 
+import (
+	"log"
+	"os"
+
+	aes "github.com/ernestio/crypto/aes"
+)
+
 // Credentials : Mapping of a vcloud credentials
 type Credentials struct {
 	Type      string `json:"type"`
@@ -11,4 +18,17 @@ type Credentials struct {
 	Username  string `json:"vcloud_username"`
 	Password  string `json:"vcloud_password"`
 	VCloudURL string `json:"vcloud_url"`
+}
+
+// GetPassword : gets the encrypted password
+func (c *Credentials) GetPassword() string {
+	key := os.Getenv("ERNEST_CRYPTO_KEY")
+
+	crypto := aes.New()
+	password, err := crypto.Decrypt(c.Password, key)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return password
 }

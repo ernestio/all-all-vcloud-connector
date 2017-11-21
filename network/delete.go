@@ -11,7 +11,7 @@ import (
 
 // Delete : delete an org vdc network
 func (n *Network) Delete() error {
-	cfg := config.New(n.Credentials.VCloudURL, "27.0").WithCredentials(n.Credentials.Username, n.Credentials.Password)
+	cfg := config.New(n.Credentials.VCloudURL, "27.0").WithCredentials(n.Credentials.Username, n.Credentials.GetPassword())
 	vcloud := client.New(cfg)
 
 	err := vcloud.Authenticate()

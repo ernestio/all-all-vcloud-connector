@@ -52,7 +52,7 @@ func (c *Collection) Delete() error {
 
 // Find : finds all edge gateways related to a vdc
 func (c *Collection) Find() error {
-	cfg := config.New(c.Credentials.VCloudURL, "27.0").WithCredentials(c.Credentials.Username, c.Credentials.Password)
+	cfg := config.New(c.Credentials.VCloudURL, "27.0").WithCredentials(c.Credentials.Username, c.Credentials.GetPassword())
 	vcloud := client.New(cfg)
 
 	err := vcloud.Authenticate()

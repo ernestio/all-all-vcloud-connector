@@ -11,7 +11,7 @@ import (
 
 // Delete : delete a vapp/vm instance
 func (i *Instance) Delete() error {
-	cfg := config.New(i.Credentials.VCloudURL, "27.0").WithCredentials(i.Credentials.Username, i.Credentials.Password)
+	cfg := config.New(i.Credentials.VCloudURL, "27.0").WithCredentials(i.Credentials.Username, i.Credentials.GetPassword())
 	vcloud := client.New(cfg)
 
 	err := vcloud.Authenticate()

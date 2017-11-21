@@ -7,13 +7,11 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"os"
 
 	"github.com/ernestio/all-all-vcloud-connector/base"
 	"github.com/ernestio/all-all-vcloud-connector/gateway"
 	"github.com/ernestio/all-all-vcloud-connector/instance"
 	"github.com/ernestio/all-all-vcloud-connector/network"
-	aes "github.com/ernestio/crypto/aes"
 )
 
 // Event : defines the interface that all events will conform to
@@ -51,18 +49,6 @@ func event(subject string, data []byte) (Event, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	c := e.GetCredentials()
-
-	key := os.Getenv("ERNEST_CRYPTO_KEY")
-
-	crypto := aes.New()
-	password, err := crypto.Decrypt(c.Password, key)
-	if err != nil {
-		return nil, err
-	}
-
-	c.Password = password
 
 	return e, nil
 }

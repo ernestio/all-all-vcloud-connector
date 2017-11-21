@@ -14,7 +14,7 @@ import (
 func (i *Instance) Update() error {
 	var task *models.Task
 
-	cfg := config.New(i.Credentials.VCloudURL, "27.0").WithCredentials(i.Credentials.Username, i.Credentials.Password)
+	cfg := config.New(i.Credentials.VCloudURL, "27.0").WithCredentials(i.Credentials.Username, i.Credentials.GetPassword())
 	vcloud := client.New(cfg)
 
 	err := vcloud.Authenticate()

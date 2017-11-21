@@ -15,7 +15,7 @@ import (
 func (g *Gateway) Configure() error {
 	var gateway *models.EdgeGateway
 
-	cfg := config.New(g.Credentials.VCloudURL, "27.0").WithCredentials(g.Credentials.Username, g.Credentials.Password)
+	cfg := config.New(g.Credentials.VCloudURL, "27.0").WithCredentials(g.Credentials.Username, g.Credentials.GetPassword())
 	vcloud := client.New(cfg)
 
 	err := vcloud.Authenticate()
