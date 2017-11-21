@@ -6,6 +6,7 @@ package gateway
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/ernestio/all-all-vcloud-connector/base"
 	"github.com/r3labs/vcloud-go-sdk/models"
@@ -90,19 +91,19 @@ func (g *Gateway) ConvertProviderType(gw *models.EdgeGateway) {
 	for _, r := range gw.Firewall().FirewallRules {
 		g.FirewallRules = append(g.FirewallRules, FirewallRule{
 			Name:            r.Description,
-			SourceIP:        r.SourceIP,
-			DestinationIP:   r.DestinationIP,
-			SourcePort:      r.SourcePortRange,
-			DestinationPort: r.DestinationPortRange,
-			Protocol:        r.Protocols.Get(),
+			SourceIP:        strings.ToLower(r.SourceIP),
+			DestinationIP:   strings.ToLower(r.DestinationIP),
+			SourcePort:      strings.ToLower(r.SourcePortRange),
+			DestinationPort: strings.ToLower(r.DestinationPortRange),
+			Protocol:        strings.ToLower(r.Protocols.Get()),
 		})
 	}
 
 	for _, r := range gw.Nat().NatRules {
 		g.NatRules = append(g.NatRules, NatRule{
 			Type:            r.RuleType,
-			OriginIP:        r.GatewayNatRule.OriginalIP,
-			TranslationIP:   r.GatewayNatRule.TranslatedIP,
+			OriginIP:        strings.ToLower(r.GatewayNatRule.OriginalIP),
+			TranslationIP:   strings.ToLower(r.GatewayNatRule.TranslatedIP),
 			OriginPort:      r.GatewayNatRule.GetOriginalPort(),
 			TranslationPort: r.GatewayNatRule.GetTranslatedPort(),
 			Protocol:        r.GatewayNatRule.GetProtocol(),
