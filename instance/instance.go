@@ -27,8 +27,8 @@ type Instance struct {
 	Memory        int               `json:"ram"`
 	Network       string            `json:"network"`
 	IP            string            `json:"ip"`
-	Disks         []Disk            `json:"disks"`
-	ShellCommands []string          `json:"shell_commands"`
+	Disks         []Disk            `json:"disks,omitempty"`
+	ShellCommands []string          `json:"shell_commands,omitempty"`
 	Tags          map[string]string `json:"tags"`
 }
 
@@ -109,6 +109,9 @@ func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 	i.Memory = vhs.GetRAM()
 	i.Hostname = vm.GuestCustomizationSection.ComputerName
 	i.ShellCommands = strings.Split(gcs.CustomizationScript, "\n")
+	if len(i.ShellCommands) == 1 && i.ShellCommands[0] == "" {
+		i.ShellCommands = []string{}
+	}
 
 	if len(ncs.NetworkConnections) > 0 {
 		nc := ncs.NetworkConnections[0]
@@ -118,9 +121,10 @@ func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 
 	for _, disk := range vhs.Items.ByParent(con.InstanceID.Value) {
 		var size int
+		var root bool
 
-		if disk.InstanceID.Value == "0" {
-			continue
+		if disk.AddressOnParent.Value == "0" {
+			root = true
 		}
 
 		if disk.VirtualQuantityUnits.Value == "byte" {
@@ -135,11 +139,12 @@ func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 			size, _ = strconv.Atoi(disk.VirtualQuantity.Value)
 		}
 
-		id, _ := strconv.Atoi(disk.InstanceID.Value)
+		id, _ := strconv.Atoi(disk.AddressOnParent.Value)
 
 		i.Disks = append(i.Disks, Disk{
 			ID:   id,
 			Size: size,
+			Root: root,
 		})
 	}
 }

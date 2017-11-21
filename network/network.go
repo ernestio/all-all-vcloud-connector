@@ -21,7 +21,7 @@ type Network struct {
 	StartAddress  string   `json:"start_address"`
 	EndAddress    string   `json:"end_address"`
 	Gateway       string   `json:"gateway"`
-	DNS           []string `json:"dns"`
+	DNS           []string `json:"dns,omitempty"`
 	EdgeGateway   string   `json:"edge_gateway"`
 	EdgeGatewayID string   `json:"edge_gateway_id"`
 }
@@ -89,8 +89,10 @@ func (n *Network) ConvertProviderType(nw *models.Network) {
 	n.StartAddress = nw.StartAddress()
 	n.EndAddress = nw.EndAddress()
 
-	n.DNS = []string{
-		nw.DNS1(),
-		nw.DNS2(),
+	if nw.DNS1() != "" {
+		n.DNS = append(n.DNS, nw.DNS1())
+	}
+	if nw.DNS2() != "" {
+		n.DNS = append(n.DNS, nw.DNS2())
 	}
 }
