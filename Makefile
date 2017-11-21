@@ -5,12 +5,10 @@ build:
 	go build -v ./...
 
 deps:
-		go get github.com/nats-io/nats
-		go get github.com/ernestio/crypto/aes
-		go get github.com/ernestio/ernest-config-client
-		go get github.com/r3labs/vcloud-go-sdk
+	go get -u github.com/golang/dep/cmd/dep
+	dep ensure
 
-dev-deps:
+dev-deps: deps
 	go get github.com/golang/lint/golint
 
 test:
