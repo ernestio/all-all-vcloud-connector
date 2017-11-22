@@ -1,12 +1,19 @@
+install:
+	go install -v
+
+build:
+	go build -v ./...
+
 deps:
-	go get -u github.com/ernestio/bash-nats
+	go get -u github.com/golang/dep/cmd/dep
+	dep ensure
 
-dev-deps:
-	jruby -S bundle install
-
-lint:
-	jruby -S bundle exec rubocop
+dev-deps: deps
+	go get github.com/golang/lint/golint
 
 test:
-	#jruby -S bundle exec rspec spec
-	echo "passed"
+	go test -v ./...
+
+lint:
+	golint ./...
+	go vet ./...
