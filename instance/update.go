@@ -76,14 +76,16 @@ func (i *Instance) Update() error {
 		return err
 	}
 
-	task, err = vcloud.Vms.PowerOn(vm.GetID())
-	if err != nil {
-		return err
-	}
+	if i.Powered {
+		task, err = vcloud.Vms.PowerOn(vm.GetID())
+		if err != nil {
+			return err
+		}
 
-	err = vcloud.Tasks.Wait(task)
-	if err != nil {
-		return err
+		err = vcloud.Tasks.Wait(task)
+		if err != nil {
+			return err
+		}
 	}
 
 	i.ConvertProviderType(vapp)

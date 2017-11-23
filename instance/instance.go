@@ -29,6 +29,7 @@ type Instance struct {
 	IP            string            `json:"ip"`
 	Disks         []Disk            `json:"disks,omitempty"`
 	ShellCommands []string          `json:"shell_commands,omitempty"`
+	Powered       bool              `json:"powered"`
 	Tags          map[string]string `json:"tags"`
 }
 
