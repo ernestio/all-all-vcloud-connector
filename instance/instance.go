@@ -88,7 +88,7 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 
 	gcs.Enabled = true
 	gcs.ComputerName = i.Hostname
-	gcs.CustomizationScript = strings.Join(i.ShellCommands, "\n")
+	gcs.CustomizationScript = strings.Join(i.ShellCommands, "&#13;")
 }
 
 // ConvertProviderType : converts the org vdc network to an ernest network
