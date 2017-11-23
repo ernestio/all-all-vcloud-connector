@@ -13,6 +13,7 @@ import (
 
 	ecc "github.com/ernestio/ernest-config-client"
 	"github.com/nats-io/nats"
+	"github.com/r3labs/vcloud-go-sdk/connection"
 )
 
 var nc *nats.Conn
@@ -48,6 +49,8 @@ func handler(msg *nats.Msg) {
 }
 
 func main() {
+	connection.DEBUG = true
+
 	cfg = ecc.NewConfig(os.Getenv("NATS_URI"))
 	nc = cfg.Nats()
 

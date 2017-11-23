@@ -59,7 +59,7 @@
   branch = "master"
   name = "github.com/r3labs/vcloud-go-sdk"
   packages = ["client","client/catalogs","client/gateways","client/networks","client/orgs","client/queries","client/tasks","client/templates","client/vapps","client/vdcs","client/vms","config","connection","models"]
-  revision = "039152a62a184834168e626abedf35757ee67c7f"
+  revision = "0e299333e8559040f83e3abbe5020e644683475b"
 
 [[projects]]
   branch = "master"
@@ -82,6 +82,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c6d553da90cb28bb92a746a94d441aa4ea68d63c5e447a5eddb59b575d3aad42"
+  inputs-digest = "79f4020f5e9873505a0a95e69dc3695ff55ee6e75933fad0c90a28a6ae9f62da"
   solver-name = "gps-cdcl"
   solver-version = 1
