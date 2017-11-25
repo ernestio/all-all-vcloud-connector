@@ -110,6 +110,11 @@ func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 	i.Memory = vhs.GetRAM()
 	i.Hostname = vm.GuestCustomizationSection.ComputerName
 	i.ShellCommands = strings.Split(gcs.CustomizationScript, "\n")
+	i.Powered = true
+	if vm.Status == "8" {
+		i.Powered = false
+	}
+
 	if len(i.ShellCommands) == 1 && i.ShellCommands[0] == "" {
 		i.ShellCommands = []string{}
 	}

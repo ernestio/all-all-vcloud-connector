@@ -88,7 +88,9 @@ func (i *Instance) Update() error {
 		}
 	}
 
+	powered := i.Powered
 	i.ConvertProviderType(vapp)
+	i.Powered = powered
 
 	return nil
 }
