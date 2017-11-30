@@ -58,7 +58,7 @@ func (i *Instance) CreateProviderRequest() *models.InstantiateVAppParams {
 		Name:        i.Name,
 		Description: i.Name,
 		AcceptEULAs: true,
-		Deploy:      true,
+		Deploy:      false,
 		PowerOn:     false,
 	}
 }
@@ -87,7 +87,7 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 
 	gcs.Enabled = true
 	gcs.ComputerName = i.Hostname
-	gcs.CustomizationScript = strings.Join(i.ShellCommands, "&#13;")
+	gcs.SetCustomizationScript(strings.Join(i.ShellCommands, "\n"))
 }
 
 // ConvertProviderType : converts the org vdc network to an ernest network
@@ -108,7 +108,7 @@ func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 	i.Cpus = vhs.GetCPU()
 	i.Memory = vhs.GetRAM()
 	i.Hostname = vm.GuestCustomizationSection.ComputerName
-	i.ShellCommands = strings.Split(gcs.CustomizationScript, "\n")
+	i.ShellCommands = strings.Split(gcs.GetCustomizationScript(), "\n")
 	if len(i.ShellCommands) == 1 && i.ShellCommands[0] == "" {
 		i.ShellCommands = []string{}
 	}

@@ -28,6 +28,7 @@ func (c *Credentials) GetPassword() string {
 	password, err := crypto.Decrypt(c.Password, key)
 	if err != nil {
 		log.Println("could not decrypt credentials: " + err.Error())
+		return c.Password
 	}
 
 	return password
