@@ -58,6 +58,7 @@ func (g *Gateway) UpdateProviderType(gw *models.EdgeGateway) {
 			DestinationPortRange: r.DestinationPort,
 			Protocols:            p.Set(r.Protocol),
 			Policy:               "allow",
+			Enabled:              true,
 		})
 	}
 
