@@ -29,6 +29,7 @@ type Instance struct {
 	IP            string            `json:"ip"`
 	Disks         []Disk            `json:"disks,omitempty"`
 	ShellCommands []string          `json:"shell_commands,omitempty"`
+	Powered       bool              `json:"powered"`
 	Tags          map[string]string `json:"tags"`
 }
 
@@ -109,6 +110,11 @@ func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 	i.Memory = vhs.GetRAM()
 	i.Hostname = vm.GuestCustomizationSection.ComputerName
 	i.ShellCommands = strings.Split(gcs.GetCustomizationScript(), "\n")
+	i.Powered = true
+	if vm.Status == "8" {
+		i.Powered = false
+	}
+
 	if len(i.ShellCommands) == 1 && i.ShellCommands[0] == "" {
 		i.ShellCommands = []string{}
 	}

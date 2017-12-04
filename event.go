@@ -40,7 +40,7 @@ func event(subject string, data []byte) (Event, error) {
 	case "instances.find.vcloud":
 		e = &instance.Collection{}
 	case "instance.create.vcloud", "instance.update.vcloud", "instance.delete.vcloud":
-		e = &instance.Instance{}
+		e = &instance.Instance{Powered: true}
 	default:
 		return nil, errors.New("unsupported event")
 	}
