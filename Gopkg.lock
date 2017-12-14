@@ -59,7 +59,7 @@
   branch = "master"
   name = "github.com/r3labs/vcloud-go-sdk"
   packages = ["client","client/catalogs","client/gateways","client/networks","client/orgs","client/queries","client/tasks","client/templates","client/vapps","client/vdcs","client/vms","config","connection","models"]
-  revision = "7b0eb988005729f26f303eca1b89577d5f4631c1"
+  revision = "5a325b3f2bfe3a3a9bf794ce1af7fd229f79e72c"
 
 [[projects]]
   branch = "master"
