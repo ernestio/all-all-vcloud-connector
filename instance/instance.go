@@ -77,9 +77,12 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 	vhs.SetCPU(i.Cpus)
 	vhs.SetRAM(i.Memory)
 
+	for _, disk := range vhs.Items.ByParent(con.InstanceID.Value) {
+		vhs.RemoveDisk(con.InstanceID.Value, disk.AddressOnParent.Value)
+	}
+
 	for _, disk := range i.Disks {
 		id := strconv.Itoa(disk.ID)
-		vhs.RemoveDisk(con.InstanceID.Value, id)
 		vhs.AddDisk(con.InstanceID.Value, id, disk.Size)
 	}
 
