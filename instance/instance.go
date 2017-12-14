@@ -66,6 +66,8 @@ func (i *Instance) CreateProviderRequest() *models.InstantiateVAppParams {
 
 // UpdateProviderType : updates the provider type with values from the ernest instance
 func (i *Instance) UpdateProviderType(vapp *models.VApp) {
+	var hasRootDisk bool
+
 	vm := vapp.Children.Vms[0]
 
 	vm.Name = i.Name
@@ -77,8 +79,15 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 	vhs.SetCPU(i.Cpus)
 	vhs.SetRAM(i.Memory)
 
+	for _, disk := range i.Disks {
+		if disk.ID == 0 {
+			hasRootDisk = true
+			break
+		}
+	}
+
 	for _, disk := range vhs.Items.ByParent(con.InstanceID.Value) {
-		if disk.AddressOnParent.Value == "0" {
+		if disk.AddressOnParent.Value == "0" && !hasRootDisk {
 			continue
 		}
 		vhs.RemoveDisk(con.InstanceID.Value, disk.AddressOnParent.Value)
