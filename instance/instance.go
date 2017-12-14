@@ -78,6 +78,9 @@ func (i *Instance) UpdateProviderType(vapp *models.VApp) {
 	vhs.SetRAM(i.Memory)
 
 	for _, disk := range vhs.Items.ByParent(con.InstanceID.Value) {
+		if disk.AddressOnParent.Value == "0" {
+			continue
+		}
 		vhs.RemoveDisk(con.InstanceID.Value, disk.AddressOnParent.Value)
 	}
 
