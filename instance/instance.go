@@ -140,6 +140,9 @@ func (i *Instance) ConvertProviderType(vapp *models.VApp) {
 		i.Network = nc.Network
 	}
 
+	// clear disks
+	i.Disks = []Disk{}
+
 	for _, disk := range vhs.Items.ByParent(con.InstanceID.Value) {
 		var size int
 		var root bool
