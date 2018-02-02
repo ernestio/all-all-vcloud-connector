@@ -54,7 +54,9 @@ func main() {
 	cfg = ecc.NewConfig(os.Getenv("NATS_URI"))
 	nc = cfg.Nats()
 
-	nc.QueueSubscribe("*.*.vcloud", "vcloud-connector", handler)
+	if _, err := nc.QueueSubscribe("*.*.vcloud", "vcloud-connector", handler); err != nil {
+		log.Println(err)
+	}
 
 	runtime.Goexit()
 }

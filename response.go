@@ -29,5 +29,7 @@ func response(subj string, e *Event, err *error) {
 		log.Println(merr)
 	}
 
-	nc.Publish(subj, data)
+	if err := nc.Publish(subj, data); err != nil {
+		log.Println(err)
+	}
 }
