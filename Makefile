@@ -9,11 +9,12 @@ deps:
 	dep ensure
 
 dev-deps: deps
-	go get github.com/golang/lint/golint
+	go get github.com/smartystreets/goconvey
+	go get github.com/alecthomas/gometalinter
+	gometalinter --install
 
 test:
-	go test -v ./...
+	go test --cover -v $$(go list ./... | grep -v /vendor/)
 
 lint:
-	golint ./...
-	go vet ./...
+	gometalinter --config .linter.conf
