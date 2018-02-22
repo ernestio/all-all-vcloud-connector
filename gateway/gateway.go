@@ -57,7 +57,7 @@ func (g *Gateway) UpdateProviderType(gw *models.EdgeGateway) {
 			SourcePortRange:      r.SourcePort,
 			DestinationPortRange: r.DestinationPort,
 			Protocols:            p.Set(r.Protocol),
-			Policy:               "allow",
+			Policy:               r.Action,
 			Enabled:              true,
 		})
 	}
@@ -98,6 +98,7 @@ func (g *Gateway) ConvertProviderType(gw *models.EdgeGateway) {
 				SourcePort:      strings.ToLower(r.SourcePortRange),
 				DestinationPort: strings.ToLower(r.DestinationPortRange),
 				Protocol:        strings.ToLower(r.Protocols.Get()),
+				Policy:          strings.ToLower(r.Action),
 			})
 		}
 	}

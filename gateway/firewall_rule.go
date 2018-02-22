@@ -12,4 +12,5 @@ type FirewallRule struct {
 	DestinationIP   string `json:"destination_ip"`
 	DestinationPort string `json:"destination_port"`
 	Protocol        string `json:"protocol"`
+	Action          string `json:"action"`
 }
