@@ -98,7 +98,7 @@ func (g *Gateway) ConvertProviderType(gw *models.EdgeGateway) {
 				SourcePort:      strings.ToLower(r.SourcePortRange),
 				DestinationPort: strings.ToLower(r.DestinationPortRange),
 				Protocol:        strings.ToLower(r.Protocols.Get()),
-				Policy:          strings.ToLower(r.Action),
+				Action:          strings.ToLower(r.Policy),
 			})
 		}
 	}
