@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	ecc "github.com/ernestio/ernest-config-client"
-	"github.com/nats-io/nats"
+	"github.com/nats-io/go-nats"
 	"github.com/r3labs/vcloud-go-sdk/connection"
 )
 
