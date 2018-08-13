@@ -3,65 +3,82 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:d49d297c292766d6603a9aaa15be3cae4a39e084a69bb7d665fe0d5b5270ac31"
   name = "github.com/ernestio/crypto"
   packages = ["aes"]
+  pruneopts = ""
   revision = "fa0fc393bc2487562c72fbbfa8a08862b39a6c0a"
 
 [[projects]]
   branch = "master"
+  digest = "1:6078f921de2a68b6afbc31dfa1684d600966f4c332063e8daef61758b6a6094e"
   name = "github.com/ernestio/ernest-config-client"
   packages = ["."]
-  revision = "3ae64ad7b8e5b19b31ff8a8e0bedcf807989e42e"
+  pruneopts = ""
+  revision = "9588aab91bdf53d2fa430f9505b33457d3fcb3bc"
 
 [[projects]]
+  digest = "1:d5c1692d62c22b9ff5248d1c5f3850d06f7bc850f9ae6eec15c6601f774eef4f"
   name = "github.com/jinzhu/gorm"
   packages = [
     ".",
-    "dialects/postgres"
+    "dialects/postgres",
   ]
+  pruneopts = ""
   revision = "5174cc5c242a728b435ea2be8a2f7f998e15429b"
   version = "v1.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:a0c0f06f12f4b83b89eec79114265c54e9e300b8ddda0f0f3fb49a685283fa6c"
   name = "github.com/jinzhu/inflection"
   packages = ["."]
+  pruneopts = ""
   revision = "1c35d901db3da928c72a72d8458480cc9ade058f"
 
 [[projects]]
   branch = "master"
+  digest = "1:c427c0ff484d0eda383188ee5559a1b28783a579e2a64b8dc4e3a15d38ee3cc2"
   name = "github.com/lib/pq"
   packages = [
     ".",
     "hstore",
-    "oid"
+    "oid",
   ]
+  pruneopts = ""
   revision = "8c6ee72f3e6bcb1542298dd5f76cb74af9742cec"
 
 [[projects]]
+  digest = "1:36bb8d98af879e2a7747ef28a4c8fc456c470675dce0ff95e97e413b22244299"
   name = "github.com/nats-io/go-nats"
   packages = [
     ".",
     "encoders/builtin",
-    "util"
+    "util",
   ]
+  pruneopts = ""
   revision = "29f9728a183bf3fa7e809e14edac00b33be72088"
   version = "v1.3.0"
 
 [[projects]]
+  digest = "1:be61e8224b84064109eaba8157cbb4bbe6ca12443e182b6624fdfa1c0dcf53d9"
   name = "github.com/nats-io/nuid"
   packages = ["."]
+  pruneopts = ""
   revision = "289cccf02c178dc782430d534e3c1f5b72af807f"
   version = "v1.0.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:c21600df12e3d20bfbbf7457d244d6c6d9690ca88ec64f6412977995c06cdda5"
   name = "github.com/r3labs/akira"
   packages = ["."]
+  pruneopts = ""
   revision = "8754167cb7b314671eb1e2abf2e9465f2e3d5ad4"
 
 [[projects]]
   branch = "master"
+  digest = "1:5ad77350b1e3947d7bcc73beaf0da580955a0b5e56a23c0d4ce11551653ca28e"
   name = "github.com/r3labs/vcloud-go-sdk"
   packages = [
     "client",
@@ -77,37 +94,52 @@
     "client/vms",
     "config",
     "connection",
-    "models"
+    "models",
   ]
+  pruneopts = ""
   revision = "281eecf4e9c28d03efb02051a6c4cb18c01f0188"
 
 [[projects]]
   branch = "master"
+  digest = "1:f6a006d27619a4d93bf9b66fe1999b8c8d1fa62bdc63af14f10fbe6fcaa2aa1a"
   name = "golang.org/x/crypto"
   packages = ["pbkdf2"]
+  pruneopts = ""
   revision = "9f005a07e0d31d45e6656d241bb5c0f2efd4bc94"
 
 [[projects]]
   branch = "v1"
+  digest = "1:105ec809d993ab248d801e6daef5634115218dec8f77bcbc55f07a97d655ddad"
   name = "gopkg.in/bsm/ratelimit.v1"
   packages = ["."]
+  pruneopts = ""
   revision = "db14e161995a5177acef654cb0dd785e8ee8bc22"
 
 [[projects]]
+  digest = "1:6651284988a9d46d55a68413bdf9850558ee440642449d269f16dbc32a2d3b88"
   name = "gopkg.in/redis.v3"
   packages = [
     ".",
     "internal",
     "internal/consistenthash",
     "internal/hashtag",
-    "internal/pool"
+    "internal/pool",
   ]
+  pruneopts = ""
   revision = "b5e368500d0a508ef8f16e9c2d4025a8a46bcc29"
   version = "v3.6.4"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9313117f8539b6bcde0341830946e751003bb8f7badca206438d9a7cee963fb5"
+  input-imports = [
+    "github.com/ernestio/crypto/aes",
+    "github.com/ernestio/ernest-config-client",
+    "github.com/nats-io/go-nats",
+    "github.com/r3labs/vcloud-go-sdk/client",
+    "github.com/r3labs/vcloud-go-sdk/config",
+    "github.com/r3labs/vcloud-go-sdk/connection",
+    "github.com/r3labs/vcloud-go-sdk/models",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
